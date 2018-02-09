@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mica.mapper.StudentMapper">
+   <sql id="studentColumns">
+       stuID,loginName,loginPwd,gender
+   </sql>
+
+    <select id="getTotalRecord"
+            resultType="java.lang.Integer"
+            parameterType="com.mica.domain.Student">
+        SELECT COUNT(stuID)
+        FROM student
+        <where>
+            1=1
+            <if test="loginName != null and loginName != ''">
+                AND loginName LIKE "%${loginName}%"
+            </if>
+        </where>
+
+
+    </select>
+
+    <select id="selectAll"
+            resultType="com.mica.domain.Student"
+            parameterType="com.mica.domain.Student">
+        SELECT
+        <include refid="studentColumns"/>
+        FROM student
+        <where>
+            1=1
+            <if test="loginName != null and loginName != ''">
+                AND loginName LIKE "%${loginName}%"
+            </if>
+        </where>
+        limit #{pageBean.startIndex},#{pageBean.pageSize}
+    </select>
+
+
+</mapper>
